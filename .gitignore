@@ -1,0 +1,19 @@
+# Environment files
+.env
+.env.*
+
+# Vim temporary files
+*.swp
+*.swo
+*.swn
+*~
+*.un~
+
+# Database files
+*.sqlite
+*.db
+
+# System files
+.DS_Store
+Thumbs.db
+
