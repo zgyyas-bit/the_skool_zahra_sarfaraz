@@ -1,0 +1,18 @@
+-- Uppgift 1f
+-- Antal beviljade ansökningar per utbildningsanordnare
+-- och utbildningsnamn inom Data/IT
+-- Sorterat från flest till färst
+
+SELECT
+    "UTBILDNINGSANORDNARE ADMINISTRATIV ENHET",
+    "UTBILDNINGSNAMN",
+    COUNT(*) AS ANTAL_BEVILJADE
+FROM YH_APPLICATIONS_2025
+WHERE "UTBILDNINGSOMRÅDE" = 'Data/IT'
+  AND "BESLUT" = 'Beviljad'
+GROUP BY
+    "UTBILDNINGSANORDNARE ADMINISTRATIV ENHET",
+    "UTBILDNINGSNAMN"
+ORDER BY ANTAL_BEVILJADE DESC;
+
+
