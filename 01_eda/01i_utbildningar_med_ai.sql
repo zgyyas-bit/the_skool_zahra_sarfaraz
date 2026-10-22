@@ -10,5 +10,7 @@ WHERE REGEXP_LIKE(
     "UTBILDNINGSNAMN",
     '(^|[^[:alnum:]])AI([^[:alnum:]]|$)',
     'i'
-);
+)
+ORDER BY "UTBILDNINGSNAMN";
+
 
