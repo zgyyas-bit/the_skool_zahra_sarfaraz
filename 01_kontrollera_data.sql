@@ -1,0 +1,4 @@
+-- Kontrollera de första 10 raderna
+SELECT *
+FROM YH_APPLICATIONS_2025
+FETCH FIRST 10 ROWS ONLY;
