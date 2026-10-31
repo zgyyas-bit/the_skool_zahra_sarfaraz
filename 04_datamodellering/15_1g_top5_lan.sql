@@ -1,0 +1,18 @@
+-- Uppgift 4 - Fraga 1g
+-- De fem lanen med flest beviljade ansokningar
+-- Nya datamodellen med JOIN
+
+SELECT
+    l.LAN_NAME AS LAN,
+    COUNT(*) AS ANTAL_BEVILJADE
+FROM ANSOKAN a
+JOIN ANSOKAN_KOMMUN ak
+    ON a.DIARIENUMMER = ak.DIARIENUMMER
+JOIN KOMMUN k
+    ON ak.KOMMUN_ID = k.KOMMUN_ID
+JOIN LAN l
+    ON k.LAN_ID = l.LAN_ID
+WHERE a.BESLUT = 'Beviljad'
+GROUP BY l.LAN_NAME
+ORDER BY ANTAL_BEVILJADE DESC, l.LAN_NAME
+FETCH FIRST 5 ROWS ONLY;
