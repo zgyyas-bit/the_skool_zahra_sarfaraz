@@ -34,6 +34,12 @@ De områden med flest ansökningar är:
 - Teknik och tillverkning: 221 ansökningar.
 - Data/IT: 220 ansökningar.
 
+**Screenshot - Fråga 1a**
+
+Här använder jag COUNT(*) och GROUP BY för att visa antalet ansökningar per utbildningsområde. Resultatet visar 14 utbildningsområden och totalt 1 184 ansökningar.
+
+![SQL-analys av antal ansökningar per utbildningsområde](screenshots/1a.png)
+
 * 1b - Beviljade ansökningar per utbildningsområde
 Ansökningarna filtrerades med WHERE BESLUT = 'beviljad' för att räkna hur många som blev beviljade inom varje utbildningsområde.
 Totalt blev 462 ansökningar beviljade där Teknik och tillverkning låg i top med flest beviljade ansökningar 113, medan Data/IT hade endast 31. 
@@ -54,6 +60,12 @@ Jag grupperade efter utbildningsanordnare och utbildningsnamn för att sedan jä
 Här använde jag ORDER BY och FETCH FIRST 5 ROWS ONLY för att hittade fem länen med flest beviljanden. 
 Resultatet visade att Stockholm och Västra Götaland hade flest med 89 beviljade ansökningar vardera. I andra plats låg Skåne med 45 beviljanden.
 
+**Screenshot – Fråga 1g**
+
+JOIN användes för att koppla samman tabellerna ANSOKAN, ANSOKAN_KOMMUN, KOMMUN och LAN. Med ORDER BY och FETCH FIRST 5 ROWS ONLY visar jag fem län med flest beviljade ansökningar.
+
+![SQL-fråga med JOIN som visar de fem länen med flest beviljade ansökningar](screenshots/1g.png)
+
 * 1h - Andel distansutbildningar och bundna utbildningar
 Här Användes CASE WHEN, SUM() och ROUND() för att räkna ut procentandelen för distans och bundna utbildningar inom varje utbildningsområde. 
 Inom Data/IT visade resultatet:
@@ -64,6 +76,12 @@ Inom Data/IT visade resultatet:
 * 1i - Utbildningar som innehåller ordet AI
 Jag undersökte hur många utbildningsnamn som innehöll ordet AI genom att först använda LIKE '%AI%' men upptäckte att det även gav träffar på ord som "Maintenanc"e och "Chain". Därför blev jag tvungen att använda REGEXP_LIKE() för att söka mer exakt efter AI som en separat del av namnet. 
 Då visade resultatet 48 matchande ansökningar (från att först ha visat 56).
+
+**Screenshot – Fråga 1i**
+
+Med LIKE '%AI%' gav det felaktigt 56 träffar. Med  REGEXP_LIKE visades rätt resultatet vilket är 48 ansökningar.
+
+![SQL-sökning efter AI-utbildningar med REGEXP_LIKE](screenshots/1i.png)
  
 Sammanfattning av uppgift 1
 Genom SQL-analysern kom vi fram till att Data/IT hade många ansökningar men få av dem hade beviljats. Man fick en klarare bild av konkurrenser inom olika utbildningsområden vilket gav en bra grund för fortsatt analys för The Skool. 
@@ -154,6 +172,23 @@ Import och kontroll av data
 SQL användes för att skapa tabellerna och importera info från YH_APPLICATIONS_2025. importen kontrollerades sedan för tt se till att antalet poster och relationerna stämde med ursprungsdatan. 
 
 Det är värt att nämna att i 295 stycken ansökningar framgick inga specifika kommuner utan de hade värdet Flera kommuner. Jag ville inte komma med påhittade kommunkopplingar vilket är varför de 295 ansökningarna finns kvar i ANSOKAN medan övriga 889 ansökningar har kopplats till sina angivna kommuner.  
+
+### Screenshot - Tabellen ANSOKAN
+Här kontrollerar jag tabellen ANSOKAN efter importen av 1 184 ansökningar.
+
+Resultatet: tabellen har  en PK och tre FK. Dessa kopplar ansökningarna till SUN5_INRIKTNING, SEQF och UTBILDNINGSANORDNARE.
+
+![Kontroll av primärnyckel och främmande nycklar i ANSOKAN](screenshots/05b_ansokan.png)
+
+### Screenshots - Kopplingstabellen ANSOKAN_KOMMUN
+Kopplingstabellen ANSOKAN_KOMMUN kopplar ansökningar till kommuner med hjälp av främmande nycklar. MERGE används för att importera kopplingarna utan att skapa dubbletter. Resultatet blev 889 kommunkopplingar.
+
+Resterande 295 ansökningarna hade värdet "Flera kommuner", vilket inte gick att identifiera spcifik kommun.
+
+![SQL-kod för kopplingstabellen ANSOKAN_KOMMUN](screenshots/08a_ansokan_kommun.png)
+Här visar jag även hur jag kontrollerade resultatet efter importen. Totalt skapades 889 kommunkopplingar, samtidigt som alla 1 184 ansökningar fanns kvar i databasen.
+
+![Kontroll av kommunkopplingar och antal ansökningar](screenshots/08b_ansokan_kommun.png)
 
 SQL-frågor med den nya datamodellen
 
